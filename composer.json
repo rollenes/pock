@@ -1,0 +1,15 @@
+{
+    "name": "rollenes/pock",
+    "require": {
+        "antecedent/patchwork": "~1.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.7"
+    },
+    "authors": [
+        {
+            "name": "Rafał Wartalski",
+            "email": "rafal.wartalski@gmail.com"
+        }
+    ]
+}
