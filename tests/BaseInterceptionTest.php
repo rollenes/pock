@@ -2,33 +2,18 @@
 
 namespace Rollenes\Pock\Tests;
 
-function file_get_contents($filename) {
-    return 'this is not github';
-}
-
-function fopen($file, $mode) {
-    return 'fopen';
-}
-
-function fread() {
-    return func_get_args();
+function sizeof($array) {
+    return 0;
 }
 
 class BaseInterceptionTest extends \PHPUnit_Framework_TestCase
 {
-    public function testFileGetContentsInterceptor()
+    public function testSizeOfInterceptor()
     {
-        $content = file_get_contents('http://github.com');
+        $this->assertEquals(0, sizeof([]));
+        $this->assertEquals(0, sizeof([1]));
+        $this->assertEquals(0, sizeof(timezone_abbreviations_list()));
 
-        $this->assertEquals('this is not github', $content);
-    }
-
-    public function testFreadInterceptor()
-    {
-        $f = fopen('test', "r");
-
-        $content = fread($f, 1024);
-
-        $this->assertEquals(['fopen', '1024'], $content);
+        $this->assertEquals(1, \sizeof([1]));
     }
 }
