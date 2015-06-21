@@ -41,4 +41,19 @@ class CurlInterceptorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('intercepted', $reader->get('http://google.com'));
     }
 
+    public function test_should_intercept_separate_uri()
+    {
+        $reader = new CurlReader();
+
+        $interceptor = new CurlInterceptor();
+
+        $interceptor->intercept('Rollenes\Pock\Test\Fixtures', [
+            'http://google.com' => 'google-intercepted',
+            'http://github.com' => 'github-intercepted'
+        ]);
+
+        $this->assertEquals('google-intercepted', $reader->get('http://google.com'));
+        $this->assertEquals('github-intercepted', $reader->get('http://github.com'));
+    }
+
 }
