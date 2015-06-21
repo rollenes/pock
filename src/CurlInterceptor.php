@@ -4,51 +4,18 @@ namespace Rollenes\Pock;
 
 class CurlInterceptor
 {
-    public function intercept($namespace, $interceptions = [])
+    private $namespace;
+
+    public function __construct($namespace)
     {
-        if (!function_exists($namespace . '\curl_exec')) {
-            eval(
-                <<<EVAL
-namespace $namespace {
-    function curl_exec() {
-        \$reflection = new \ReflectionFunction('\curl_exec');
-
-        return \$reflection->invokeArgs(func_get_args());
+        $this->namespace = $namespace;
     }
-}
-EVAL
-            );
-        }
 
-        if (!function_exists($namespace . '\curl_init')) {
-            eval(
-            <<<EVAL
-namespace $namespace {
-    function curl_init() {
-        \$reflection = new \ReflectionFunction('\curl_init');
+    public function intercept($interceptions = [])
+    {
+        $this->proxyNotExistingNamespaceFunctions(['curl_init', 'curl_setopt', 'curl_exec']);
 
-        return \$reflection->invokeArgs(func_get_args());
-    }
-}
-EVAL
-            );
-        }
-
-        if (!function_exists($namespace . '\curl_setopt')) {
-            eval(
-            <<<EVAL
-namespace $namespace {
-    function curl_setopt() {
-        \$reflection = new \ReflectionFunction('\curl_setopt');
-
-        return \$reflection->invokeArgs(func_get_args());
-    }
-}
-EVAL
-            );
-        }
-
-        \Patchwork\replace($namespace . '\curl_init', function($url = null) {
+        $this->replaceDefinition('curl_init', function($url = null) {
             $ch = new \stdClass();
 
             if ($url) {
@@ -58,15 +25,43 @@ EVAL
             return $ch;
         });
 
-        \Patchwork\replace($namespace . '\curl_setopt', function($ch, $opt, $val) {
+        $this->replaceDefinition('curl_setopt', function($ch, $opt, $val) {
             $ch->$opt = $val;
         });
 
-        \Patchwork\replace($namespace . '\curl_exec', function($ch) use ($interceptions) {
+        $this->replaceDefinition('curl_exec', function($ch) use ($interceptions) {
             if (isset($interceptions[$ch->{10002}])) {
                 return $interceptions[$ch->{10002}];
             }
             return 'intercepted';
         });
     }
-} 
+
+    private function proxyNotExistingNamespaceFunctions(array $toProxy)
+    {
+        foreach($toProxy as $function) {
+            if (!function_exists($this->namespace . '\\' . $function)) {
+                $this->createNamespaceProxyFunction($this->namespace, $function);
+            }
+        }
+    }
+
+    private function replaceDefinition($function, $replacement)
+    {
+        \Patchwork\replace($this->namespace . '\\' . $function, $replacement);
+    }
+
+    private function createNamespaceProxyFunction($namespace, $functionName)
+    {
+        eval(<<<EVAL
+namespace $namespace {
+    function $functionName() {
+        \$reflection = new \ReflectionFunction('\$functionName');
+
+        return \$reflection->invokeArgs(func_get_args());
+    }
+}
+EVAL
+        );
+    }
+}

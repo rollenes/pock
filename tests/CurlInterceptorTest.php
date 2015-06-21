@@ -13,9 +13,9 @@ class CurlInterceptorTest extends \PHPUnit_Framework_TestCase
     {
         $reader = new CurlReader();
 
-        $interceptor = new CurlInterceptor();
+        $interceptor = new CurlInterceptor('Rollenes\Pock\Test\Fixtures');
 
-        $interceptor->intercept('Rollenes\Pock\Test\Fixtures');
+        $interceptor->intercept();
 
         $this->assertEquals('intercepted', $reader->get('http://google.com'));
     }
@@ -24,9 +24,9 @@ class CurlInterceptorTest extends \PHPUnit_Framework_TestCase
     {
         $reader = new N1Reader();
 
-        $interceptor = new CurlInterceptor();
+        $interceptor = new CurlInterceptor('Rollenes\Pock\Test\Fixtures\N1');
 
-        $interceptor->intercept('Rollenes\Pock\Test\Fixtures\N1');
+        $interceptor->intercept();
 
         $this->assertEquals('intercepted', $reader->get('http://google.com'));
     }
@@ -35,8 +35,8 @@ class CurlInterceptorTest extends \PHPUnit_Framework_TestCase
     {
         $reader = new N2Reader();
 
-        $interceptor = new CurlInterceptor();
-        $interceptor->intercept('Rollenes\Pock\Test\Fixtures\N2');
+        $interceptor = new CurlInterceptor('Rollenes\Pock\Test\Fixtures\N2');
+        $interceptor->intercept();
 
         $this->assertEquals('intercepted', $reader->get('http://google.com'));
     }
@@ -45,9 +45,9 @@ class CurlInterceptorTest extends \PHPUnit_Framework_TestCase
     {
         $reader = new CurlReader();
 
-        $interceptor = new CurlInterceptor();
+        $interceptor = new CurlInterceptor('Rollenes\Pock\Test\Fixtures');
 
-        $interceptor->intercept('Rollenes\Pock\Test\Fixtures', [
+        $interceptor->intercept([
             'http://google.com' => 'google-intercepted',
             'http://github.com' => 'github-intercepted'
         ]);
