@@ -1,19 +1,19 @@
 <?php
 
-namespace Rollenes\Pock\Tests;
+namespace Rollenes\Pock\Tests\Curl;
 
-use Rollenes\Pock\CurlInterceptor;
+use Rollenes\Pock\Curl\Interceptor;
 use Rollenes\Pock\Test\Fixtures\CurlReader;
 use Rollenes\Pock\Test\Fixtures\N1\Reader as N1Reader;
 use Rollenes\Pock\Test\Fixtures\N2\Reader as N2Reader;
 
-class CurlInterceptorTest extends \PHPUnit_Framework_TestCase
+class InterceptorTest extends \PHPUnit_Framework_TestCase
 {
     public function test_should_be_intercepted()
     {
         $reader = new CurlReader();
 
-        $interceptor = new CurlInterceptor('Rollenes\Pock\Test\Fixtures');
+        $interceptor = new Interceptor('Rollenes\Pock\Test\Fixtures');
 
         $interceptor->intercept();
 
@@ -24,7 +24,7 @@ class CurlInterceptorTest extends \PHPUnit_Framework_TestCase
     {
         $reader = new N1Reader();
 
-        $interceptor = new CurlInterceptor('Rollenes\Pock\Test\Fixtures\N1');
+        $interceptor = new Interceptor('Rollenes\Pock\Test\Fixtures\N1');
 
         $interceptor->intercept();
 
@@ -35,7 +35,7 @@ class CurlInterceptorTest extends \PHPUnit_Framework_TestCase
     {
         $reader = new N2Reader();
 
-        $interceptor = new CurlInterceptor('Rollenes\Pock\Test\Fixtures\N2');
+        $interceptor = new Interceptor('Rollenes\Pock\Test\Fixtures\N2');
         $interceptor->intercept();
 
         $this->assertEquals('intercepted', $reader->get('http://google.com'));
@@ -45,7 +45,7 @@ class CurlInterceptorTest extends \PHPUnit_Framework_TestCase
     {
         $reader = new CurlReader();
 
-        $interceptor = new CurlInterceptor('Rollenes\Pock\Test\Fixtures');
+        $interceptor = new Interceptor('Rollenes\Pock\Test\Fixtures');
 
         $interceptor->intercept([
             'http://google.com' => 'google-intercepted',
@@ -55,5 +55,4 @@ class CurlInterceptorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('google-intercepted', $reader->get('http://google.com'));
         $this->assertEquals('github-intercepted', $reader->get('http://github.com'));
     }
-
 }

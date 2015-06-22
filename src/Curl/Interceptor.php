@@ -1,37 +1,35 @@
 <?php
 
-namespace Rollenes\Pock;
+namespace Rollenes\Pock\Curl;
 
-class CurlInterceptor
+use Rollenes\Pock\Curl\Params;
+
+class Interceptor
 {
+    /**
+     * @var string
+     */
     private $namespace;
 
+    /**
+     * @param string $namespace
+     */
     public function __construct($namespace)
     {
         $this->namespace = $namespace;
     }
 
-    public function intercept($interceptions = [])
+    public function intercept(array $interceptions = [])
     {
         $this->proxyNotExistingNamespaceFunctions(['curl_init', 'curl_setopt', 'curl_exec']);
 
-        $this->replaceDefinition('curl_init', function($url = null) {
-            $ch = new \stdClass();
+        $this->replaceDefinition('curl_init', '\Rollenes\Pock\Curl\Params::init');
 
-            if ($url) {
-                $ch->{10002} = $url;
-            }
+        $this->replaceDefinition('curl_setopt', '\Rollenes\Pock\Curl\Params::setopt');
 
-            return $ch;
-        });
-
-        $this->replaceDefinition('curl_setopt', function($ch, $opt, $val) {
-            $ch->$opt = $val;
-        });
-
-        $this->replaceDefinition('curl_exec', function($ch) use ($interceptions) {
-            if (isset($interceptions[$ch->{10002}])) {
-                return $interceptions[$ch->{10002}];
+        $this->replaceDefinition('curl_exec', function(Params $ch) use ($interceptions) {
+            if (isset($interceptions[$ch->url])) {
+                return $interceptions[$ch->url];
             }
             return 'intercepted';
         });
