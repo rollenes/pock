@@ -17,7 +17,7 @@ class InterceptorTest extends \PHPUnit_Framework_TestCase
 
         $interceptor->intercept();
 
-        $this->assertEquals('intercepted', $reader->get('http://google.com'));
+        $this->assertEquals('No matching interception', $reader->get('http://google.com'));
     }
 
     public function test_should_intercept_in_separate_namespace()
@@ -28,7 +28,7 @@ class InterceptorTest extends \PHPUnit_Framework_TestCase
 
         $interceptor->intercept();
 
-        $this->assertEquals('intercepted', $reader->get('http://google.com'));
+        $this->assertEquals('No matching interception', $reader->get('http://google.com'));
     }
 
     public function test_should_intercept_when_function_is_defined_in_namespace()
@@ -38,7 +38,7 @@ class InterceptorTest extends \PHPUnit_Framework_TestCase
         $interceptor = new Interceptor('Rollenes\Pock\Test\Fixtures\N2');
         $interceptor->intercept();
 
-        $this->assertEquals('intercepted', $reader->get('http://google.com'));
+        $this->assertEquals('No matching interception', $reader->get('http://google.com'));
     }
 
     public function test_should_intercept_separate_uri()

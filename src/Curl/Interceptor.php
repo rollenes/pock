@@ -31,7 +31,7 @@ class Interceptor
             if (isset($interceptions[$ch->url])) {
                 return $interceptions[$ch->url];
             }
-            return 'intercepted';
+            return 'No matching interception';
         });
     }
 
