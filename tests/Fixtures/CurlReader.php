@@ -11,6 +11,10 @@ class CurlReader
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $url);
 
-        return curl_exec($ch);
+        $result = curl_exec($ch);
+
+        curl_close($ch);
+
+        return $result;
     }
 }

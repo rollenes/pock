@@ -33,6 +33,15 @@ class Params
         }
     }
 
+    /**
+     * curl_close replacement
+     * @param Params $params
+     */
+    public static function close(Params $params)
+    {
+        //connection closed - no implementaion
+    }
+
     private static function isCurlOpt($key)
     {
         return strpos($key, 'CURLOPT_') === 0;

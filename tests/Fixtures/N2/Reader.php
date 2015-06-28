@@ -17,4 +17,4 @@ class Reader
 
         return curl_exec($ch);
     }
-} 
+}

@@ -21,11 +21,13 @@ class Interceptor
 
     public function intercept(array $interceptions = [])
     {
-        $this->proxyNotExistingNamespaceFunctions(['curl_init', 'curl_setopt', 'curl_exec']);
+        $this->proxyNotExistingNamespaceFunctions(['curl_init', 'curl_setopt', 'curl_exec', 'curl_close']);
 
         $this->replaceDefinition('curl_init', '\Rollenes\Pock\Curl\Params::init');
 
         $this->replaceDefinition('curl_setopt', '\Rollenes\Pock\Curl\Params::setopt');
+
+        $this->replaceDefinition('curl_close', '\Rollenes\Pock\Curl\Params::close');
 
         $this->replaceDefinition('curl_exec', function(Params $ch) use ($interceptions) {
             if (isset($interceptions[$ch->url])) {
