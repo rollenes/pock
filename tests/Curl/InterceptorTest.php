@@ -9,36 +9,25 @@ use Rollenes\Pock\Test\Fixtures\N2\Reader as N2Reader;
 
 class InterceptorTest extends \PHPUnit_Framework_TestCase
 {
-    public function test_should_be_intercepted()
+    /**
+     * @dataProvider notMatchingProvider
+     */
+    public function test_should_be_intercepted($reader, $namespace)
     {
-        $reader = new CurlReader();
-
-        $interceptor = new Interceptor('Rollenes\Pock\Test\Fixtures');
+        $interceptor = new Interceptor($namespace);
 
         $interceptor->intercept();
 
         $this->assertEquals('No matching interception', $reader->get('http://google.com'));
     }
 
-    public function test_should_intercept_in_separate_namespace()
+    public function notMatchingProvider()
     {
-        $reader = new N1Reader();
-
-        $interceptor = new Interceptor('Rollenes\Pock\Test\Fixtures\N1');
-
-        $interceptor->intercept();
-
-        $this->assertEquals('No matching interception', $reader->get('http://google.com'));
-    }
-
-    public function test_should_intercept_when_function_is_defined_in_namespace()
-    {
-        $reader = new N2Reader();
-
-        $interceptor = new Interceptor('Rollenes\Pock\Test\Fixtures\N2');
-        $interceptor->intercept();
-
-        $this->assertEquals('No matching interception', $reader->get('http://google.com'));
+        return [
+            'base interception' => [new CurlReader(), 'Rollenes\Pock\Test\Fixtures'],
+            'separate namespace' => [new N1Reader(), 'Rollenes\Pock\Test\Fixtures\N1'],
+            'with function defined in namespace' => [new N2Reader(), 'Rollenes\Pock\Test\Fixtures\N2']
+        ];
     }
 
     public function test_should_intercept_separate_uri()
