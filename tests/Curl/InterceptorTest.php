@@ -1,6 +1,6 @@
 <?php
 
-namespace Rollenes\Pock\Tests\Curl;
+namespace Rollenes\Pock\Test\Curl;
 
 use Rollenes\Pock\Curl\Interceptor;
 use Rollenes\Pock\Test\Fixtures\CurlReader;
