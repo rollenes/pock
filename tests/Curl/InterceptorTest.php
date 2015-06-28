@@ -6,6 +6,7 @@ use Rollenes\Pock\Curl\Interceptor;
 use Rollenes\Pock\Test\Fixtures\CurlReader;
 use Rollenes\Pock\Test\Fixtures\N1\Reader as N1Reader;
 use Rollenes\Pock\Test\Fixtures\N2\Reader as N2Reader;
+use Rollenes\Pock\Test\Fixtures\Transfer\Reader as TransferReader;
 
 class InterceptorTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,6 +29,17 @@ class InterceptorTest extends \PHPUnit_Framework_TestCase
             'separate namespace' => [new N1Reader(), 'Rollenes\Pock\Test\Fixtures\N1'],
             'with function defined in namespace' => [new N2Reader(), 'Rollenes\Pock\Test\Fixtures\N2']
         ];
+    }
+
+    public function test_should_intercept_without_returntransfer()
+    {
+        $this->expectOutputString('No matching interception');
+
+        $interceptor = new Interceptor('Rollenes\Pock\Test\Fixtures\Transfer');
+
+        $interceptor->intercept();
+
+        (new TransferReader())->get('http://google.com');
     }
 
     public function test_should_intercept_separate_uri()

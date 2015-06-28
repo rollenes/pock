@@ -35,10 +35,18 @@ class Interceptor
         $this->replaceDefinition('curl_close', '\Rollenes\Pock\Curl\Params::close');
 
         $this->replaceDefinition('curl_exec', function(Params $ch) use ($interceptions) {
+
+            $result = 'No matching interception';
+
             if (isset($interceptions[$ch->url])) {
-                return $interceptions[$ch->url];
+                $result = $interceptions[$ch->url];
             }
-            return 'No matching interception';
+
+            if ($ch->returnTransfer) {
+                return $result;
+            } else {
+                echo $result;
+            }
         });
     }
 

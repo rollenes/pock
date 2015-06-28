@@ -16,4 +16,4 @@ class Reader
 
         return $result;
     }
-} 
+}
