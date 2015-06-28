@@ -4,20 +4,24 @@ namespace Rollenes\Pock\Test\Fixtures;
 
 class CurlReader
 {
+    private $ch;
+
+    public function __construct()
+    {
+        $this->ch = curl_init();
+    }
+
     public function get($url)
     {
-        $ch = curl_init();
-
-        curl_setopt_array($ch, [
+        curl_setopt_array($this->ch, [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_URL => $url,
         ]);
 
-        $result = curl_exec($ch);
+        $result = curl_exec($this->ch);
 
-        curl_reset($ch);
-
-        curl_close($ch);
+        curl_reset($this->ch);
+        curl_close($this->ch);
 
         return $result;
     }
