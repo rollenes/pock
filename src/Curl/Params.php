@@ -33,6 +33,14 @@ class Params
         }
     }
 
+    public static function setoptArray(Params $params, array $options)
+    {
+        foreach ($options as $option => $value)
+        {
+            self::setopt($params, $option, $value);
+        }
+    }
+
     /**
      * curl_close replacement
      * @param Params $params

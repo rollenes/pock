@@ -8,8 +8,10 @@ class CurlReader
     {
         $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_URL => $url,
+        ]);
 
         $result = curl_exec($ch);
 
