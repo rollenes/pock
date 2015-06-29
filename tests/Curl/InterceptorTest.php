@@ -2,8 +2,10 @@
 
 namespace Rollenes\Pock\Test\Curl;
 
+use Guzzle\Http\Client;
 use Rollenes\Pock\Curl\Interceptor;
 use Rollenes\Pock\Test\Fixtures\CurlReader;
+use Rollenes\Pock\Test\Fixtures\GuzzleReader;
 use Rollenes\Pock\Test\Fixtures\N1\Reader as N1Reader;
 use Rollenes\Pock\Test\Fixtures\N2\Reader as N2Reader;
 use Rollenes\Pock\Test\Fixtures\Transfer\Reader as TransferReader;
@@ -27,7 +29,8 @@ class InterceptorTest extends \PHPUnit_Framework_TestCase
         return [
             'base interception' => [new CurlReader(), 'Rollenes\Pock\Test\Fixtures'],
             'separate namespace' => [new N1Reader(), 'Rollenes\Pock\Test\Fixtures\N1'],
-            'with function defined in namespace' => [new N2Reader(), 'Rollenes\Pock\Test\Fixtures\N2']
+            'with function defined in namespace' => [new N2Reader(), 'Rollenes\Pock\Test\Fixtures\N2'],
+            'guzzle handler' => [new GuzzleReader(), 'Guzzle\Http\Curl']
         ];
     }
 

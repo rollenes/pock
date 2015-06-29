@@ -2,7 +2,8 @@
     "name": "rollenes/pock",
     "require": {
         "antecedent/patchwork": "~1.3",
-        "ext-curl": "*"
+        "ext-curl": "*",
+        "guzzle/guzzle": "^3.9"
     },
     "autoload": {
         "psr-4": {"Rollenes\\Pock\\": "src/"}
