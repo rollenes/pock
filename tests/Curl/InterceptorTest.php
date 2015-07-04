@@ -30,7 +30,7 @@ class InterceptorTest extends \PHPUnit_Framework_TestCase
             'base interception' => [new CurlReader(), 'Rollenes\Pock\Test\Fixtures'],
             'separate namespace' => [new N1Reader(), 'Rollenes\Pock\Test\Fixtures\N1'],
             'with function defined in namespace' => [new N2Reader(), 'Rollenes\Pock\Test\Fixtures\N2'],
-            'guzzle handler' => [new GuzzleReader(), 'Guzzle\Http\Curl']
+            'guzzle handler' => [new GuzzleReader(), 'GuzzleHttp\Handler']
         ];
     }
 

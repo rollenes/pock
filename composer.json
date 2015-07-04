@@ -2,8 +2,7 @@
     "name": "rollenes/pock",
     "require": {
         "antecedent/patchwork": "~1.3",
-        "ext-curl": "*",
-        "guzzle/guzzle": "^3.9"
+        "ext-curl": "*"
     },
     "autoload": {
         "psr-4": {"Rollenes\\Pock\\": "src/"}
@@ -12,7 +11,8 @@
         "psr-4": { "Rollenes\\Pock\\Test\\": "tests/" }
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.7"
+        "phpunit/phpunit": "~4.7",
+        "guzzlehttp/guzzle": "^6.0"
     },
     "authors": [
         {
