@@ -78,4 +78,18 @@ class Params
         $params->url = null;
         $params->returnTransfer = false;
     }
+
+    /**
+     * curl_version replacement
+     *
+     * @return array
+     */
+    public static function version()
+    {
+        $version = \curl_version();
+
+        $version['version'] = 'Pock#dev-master';
+
+        return $version;
+    }
 }

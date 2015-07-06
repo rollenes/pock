@@ -27,7 +27,8 @@ class Interceptor
             'curl_exec',
             'curl_close',
             'curl_setopt_array',
-            'curl_reset'
+            'curl_reset',
+            'curl_version'
         ]);
 
         $this->replaceDefinition('curl_init', '\Rollenes\Pock\Curl\Params::init');
@@ -35,6 +36,7 @@ class Interceptor
         $this->replaceDefinition('curl_setopt_array', '\Rollenes\Pock\Curl\Params::setoptArray');
         $this->replaceDefinition('curl_close', '\Rollenes\Pock\Curl\Params::close');
         $this->replaceDefinition('curl_reset', '\Rollenes\Pock\Curl\Params::reset');
+        $this->replaceDefinition('curl_version', '\Rollenes\Pock\Curl\Params::version');
 
         $this->replaceDefinition('curl_exec', function(Params $ch) use ($interceptions) {
 

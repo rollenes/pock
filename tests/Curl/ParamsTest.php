@@ -18,4 +18,11 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($params->url);
         $this->assertFalse($params->returnTransfer);
     }
-} 
+
+    public function test_should_return_version()
+    {
+        $version = Params::version();
+
+        $this->assertEquals('Pock#dev-master', $version['version']);
+    }
+}
