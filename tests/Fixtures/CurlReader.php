@@ -15,6 +15,8 @@ class CurlReader
 
         $result = curl_exec($ch);
 
+        curl_reset($ch);
+
         curl_close($ch);
 
         return $result;
