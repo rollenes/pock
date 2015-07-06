@@ -28,6 +28,7 @@ class Params
      *
      * @param Params $params
      * @param $option
+     *
      * @param $value
      */
     public static function setopt(Params $params, $option, $value)
@@ -65,5 +66,16 @@ class Params
     public static function close(Params $params)
     {
         //connection closed - no implementaion
+    }
+
+    /**
+     * curl_reset replacement
+     *
+     * @param Params $params
+     */
+    public static function reset(Params $params)
+    {
+        $params->url = null;
+        $params->returnTransfer = false;
     }
 }
